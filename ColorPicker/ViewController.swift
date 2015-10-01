@@ -8,21 +8,50 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var red: UITextField!
-    @IBOutlet weak var green: UITextField!
-    @IBOutlet weak var blue: UITextField!
+    @IBOutlet weak var redTextField: UITextField!
+    @IBOutlet weak var greenTextField: UITextField!
+    @IBOutlet weak var blueTextField: UITextField!
+
+    @IBOutlet weak var redSlider: UISlider!
+    @IBOutlet weak var greenSlider: UISlider!
+    @IBOutlet weak var blueSlider: UISlider!
+
+    @IBOutlet weak var backgroudColor: UIView!
 
     @IBAction func changeColor(sender: UIButton) {
-        print("Red: \(red!.text)")
-        print("Red: \(green!.text)")
-        print("Red: \(blue!.text)")
+
+        let redValue   = Float(redTextField!.text!)!
+        let greenValue = Float(greenTextField!.text!)!
+        let blueValue  = Float(blueTextField!.text!)!
+
+        let newColor   = UIColor(
+            red: CGFloat(redValue),
+            green: CGFloat(greenValue),
+            blue: CGFloat(blueValue),
+            alpha: 1.0
+        )
+
+        backgroudColor.backgroundColor = newColor
+    }
+
+    func isValidInput(value: Float) -> Bool {
+        return value >= 0 && value <= 100
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        redTextField.delegate = self
+        redTextField.keyboardType = .NumbersAndPunctuation
+
+        greenTextField.delegate = self
+        greenTextField.keyboardType = .NumbersAndPunctuation
+
+        blueTextField.delegate = self
+        blueTextField.keyboardType = .NumbersAndPunctuation
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,6 +59,8 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
 }
-
