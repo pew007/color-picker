@@ -18,7 +18,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var greenSlider: UISlider!
     @IBOutlet weak var blueSlider: UISlider!
 
-    @IBOutlet weak var backgroudColor: UIView!
+    @IBOutlet weak var colorView: UIView!
+
 
     @IBAction func changeColor(sender: UIButton) {
 
@@ -33,7 +34,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             alpha: 1.0
         )
 
-        backgroudColor.backgroundColor = newColor
+        colorView.backgroundColor = newColor
     }
 
     func isValidInput(value: Float) -> Bool {
@@ -52,6 +53,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         blueTextField.delegate = self
         blueTextField.keyboardType = .NumbersAndPunctuation
 
+        colorView.backgroundColor = UIColor.blackColor()
     }
 
     override func didReceiveMemoryWarning() {
