@@ -205,6 +205,7 @@
 					};
 					2B6876911BBCE6470040A8E2 = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = 84MGJ2F6Q5;
 						TestTargetID = 2B6876721BBCE6460040A8E2;
 					};
 				};
@@ -449,10 +450,13 @@
 		2B6876A21BBCE6470040A8E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = ColorPickerUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sdsu.cs646.assignment3.ColorPickerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_TARGET_NAME = ColorPicker;
 				USES_XCTRUNNER = YES;
 			};
@@ -461,10 +465,13 @@
 		2B6876A31BBCE6470040A8E2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = ColorPickerUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sdsu.cs646.assignment3.ColorPickerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_TARGET_NAME = ColorPicker;
 				USES_XCTRUNNER = YES;
 			};

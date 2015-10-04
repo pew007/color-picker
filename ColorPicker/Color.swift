@@ -43,11 +43,11 @@ class Color {
 
     func setValue(type: Int, value: Float?) throws {
 
-        guard value != nil else {
+        guard colorComponentValueIsNotEmpty(value) else {
             throw InputError.InputIsEmpty
         }
 
-        guard isValidInput(value) else {
+        guard colorComponentValueIsInValidRange(value!) else {
             throw InputError.InputOutOfRange(badInput: value!)
         }
 
@@ -63,15 +63,11 @@ class Color {
         }
     }
 
-    func isValidInput(input: Float?) -> Bool {
-        if let value = input {
-            return isValidRange(value)
-        } else {
-            return false
-        }
+    func colorComponentValueIsNotEmpty(colorComponentValue: Float?) -> Bool {
+        return colorComponentValue != nil
     }
 
-    func isValidRange(input: Float) -> Bool {
-        return input <= 100 && input >= 0
+    func colorComponentValueIsInValidRange(colorComponentValue: Float) -> Bool {
+        return colorComponentValue <= 100 && colorComponentValue >= 0
     }
 }
