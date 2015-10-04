@@ -10,6 +10,9 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
+    let inputIsEmptyMessage = "Input is empty"
+    let unexpectedErrorMessage = "An unexpected error has occurred"
+
     @IBOutlet weak var redTextField: UITextField!
     @IBOutlet weak var greenTextField: UITextField!
     @IBOutlet weak var blueTextField: UITextField!
@@ -20,11 +23,53 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var colorView: UIView!
 
-    @IBAction func changeColor(sender: UIButton) {
+    @IBAction func redSliderChanged(sender: UISlider) {
+        redTextField.text = String(sender.value)
+        updateColor()
+    }
 
+    @IBAction func greenSliderChanged(sender: UISlider) {
+        greenTextField.text = String(sender.value)
+        updateColor()
+    }
+
+    @IBAction func blueSliderChanged(sender: UISlider) {
+        blueTextField.text = String(sender.value)
+        updateColor()
+    }
+
+    @IBAction func redTextChanged(sender: UITextField) {
+        if sender.text != "" {
+            redSlider.value = Float(sender.text!)!
+        } else {
+            showPopupAlert(inputIsEmptyMessage)
+        }
+    }
+
+    @IBAction func greenTextChanged(sender: UITextField) {
+        if sender.text != "" {
+            greenSlider.value = Float(sender.text!)!
+        } else {
+            showPopupAlert(inputIsEmptyMessage)
+        }
+    }
+
+    @IBAction func blueTextChanged(sender: UITextField) {
+        if sender.text != "" {
+            blueSlider.value = Float(sender.text!)!
+        } else {
+            showPopupAlert(inputIsEmptyMessage)
+        }
+    }
+
+    @IBAction func changeColor(sender: UIButton) {
         // Hide keyboard
         self.view.endEditing(true)
 
+        updateColor()
+    }
+
+    func updateColor() {
         let redValue   = Float(redTextField!.text!)
         let greenValue = Float(greenTextField!.text!)
         let blueValue  = Float(blueTextField!.text!)
@@ -38,9 +83,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         } catch Color.InputError.InputOutOfRange(let badInput){
             showPopupAlert("Input \(badInput) is out of range (0-100)")
         } catch Color.InputError.InputIsEmpty {
-            showPopupAlert("Input is empty")
+            showPopupAlert(inputIsEmptyMessage)
         } catch {
-            showPopupAlert("An unexpected error has occurred")
+            showPopupAlert(unexpectedErrorMessage)
         }
     }
 
