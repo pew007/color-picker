@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
+    let minValue = 0.0
+    let maxValue = 100
     let inputIsEmptyMessage = "Input is empty"
     let unexpectedErrorMessage = "An unexpected error has occurred"
 
@@ -42,6 +44,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if sender.text != "" {
             redSlider.value = Float(sender.text!)!
         } else {
+            sender.text = String(minValue)
             showPopupAlert(inputIsEmptyMessage)
         }
     }
@@ -50,6 +53,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if sender.text != "" {
             greenSlider.value = Float(sender.text!)!
         } else {
+            sender.text = String(minValue)
             showPopupAlert(inputIsEmptyMessage)
         }
     }
@@ -58,6 +62,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if sender.text != "" {
             blueSlider.value = Float(sender.text!)!
         } else {
+            sender.text = String(minValue)
             showPopupAlert(inputIsEmptyMessage)
         }
     }
