@@ -20,49 +20,53 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var colorView: UIView!
 
-
     @IBAction func changeColor(sender: UIButton) {
 
-        let redValue   = Float(redTextField!.text!)!
-        let greenValue = Float(greenTextField!.text!)!
-        let blueValue  = Float(blueTextField!.text!)!
+        // Hide keyboard
+        self.view.endEditing(true)
 
-        let newColor   = UIColor(
-            red: CGFloat(redValue),
-            green: CGFloat(greenValue),
-            blue: CGFloat(blueValue),
-            alpha: 1.0
-        )
+        let redValue   = Float(redTextField!.text!)
+        let greenValue = Float(greenTextField!.text!)
+        let blueValue  = Float(blueTextField!.text!)
 
-        colorView.backgroundColor = newColor
+        do {
+            let color = Color()
+            try color.setValue(Color.redType, value: redValue)
+            try color.setValue(Color.greenType, value: greenValue)
+            try color.setValue(Color.blueType, value: blueValue)
+            colorView.backgroundColor = color.color
+        } catch Color.InputError.InputOutOfRange(let badInput){
+            showPopupAlert("Input \(badInput) is out of range (0-100)")
+        } catch Color.InputError.InputIsEmpty {
+            showPopupAlert("Input is empty")
+        } catch {
+            showPopupAlert("An unexpected error has occurred")
+        }
     }
 
-    func isValidInput(value: Float) -> Bool {
-        return value >= 0 && value <= 100
+    func showPopupAlert(message: String) {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        self.presentViewController(alert, animated: true, completion: nil)
+
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil))
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         redTextField.delegate = self
-        redTextField.keyboardType = .NumbersAndPunctuation
+        redTextField.keyboardType = .DecimalPad
 
         greenTextField.delegate = self
-        greenTextField.keyboardType = .NumbersAndPunctuation
+        greenTextField.keyboardType = .DecimalPad
 
         blueTextField.delegate = self
-        blueTextField.keyboardType = .NumbersAndPunctuation
+        blueTextField.keyboardType = .DecimalPad
 
         colorView.backgroundColor = UIColor.blackColor()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return false
     }
 }
