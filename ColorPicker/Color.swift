@@ -20,9 +20,9 @@ class Color {
         case InputIsEmpty
     }
 
-    var red: Float
-    var green: Float
-    var blue: Float
+    var red: Float = 0
+    var green: Float = 0
+    var blue: Float = 0
 
     var color: UIColor {
         get {

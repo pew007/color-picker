@@ -15,6 +15,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     let inputIsEmptyMessage = "Input is empty"
     let unexpectedErrorMessage = "An unexpected error has occurred"
 
+    var color: Color = Color()
+
     @IBOutlet weak var redTextField: UITextField!
     @IBOutlet weak var greenTextField: UITextField!
     @IBOutlet weak var blueTextField: UITextField!
@@ -80,7 +82,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let blueValue  = Float(blueTextField!.text!)
 
         do {
-            let color = Color()
             try color.setValue(Color.redType, value: redValue)
             try color.setValue(Color.greenType, value: greenValue)
             try color.setValue(Color.blueType, value: blueValue)
@@ -113,7 +114,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
         blueTextField.delegate = self
         blueTextField.keyboardType = .DecimalPad
 
-        colorView.backgroundColor = UIColor.blackColor()
+        let singleInstance = UIApplication.sharedApplication()
+        let appDelegate = singleInstance.delegate as? AppDelegate
+
+        color = (appDelegate?.color)!
+        colorView.backgroundColor = color.color
+
+//        NSNotificationCenter.defaultCenter().addObserver(self,
+//            selector: "applicationDidEnterBackground",
+//            name: UIApplicationDidEnterBackgroundNotification,
+//            object: color
+//        )
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: "applicationWillTerminate",
+            name: UIApplicationWillTerminateNotification,
+            object: color
+        )
     }
 
     override func didReceiveMemoryWarning() {
