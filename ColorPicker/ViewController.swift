@@ -72,7 +72,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBAction func changeColor(sender: UIButton) {
         // Hide keyboard
         self.view.endEditing(true)
-
         updateColor()
     }
 
@@ -104,7 +103,42 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setDecimalPadKeyboard()
 
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let red = userDefaults.floatForKey("red")
+        let green = userDefaults.floatForKey("green")
+        let blue = userDefaults.floatForKey("blue")
+
+        redTextField.text = String(red)
+        greenTextField.text = String(green)
+        blueTextField.text = String(blue)
+
+        redSlider.value = red
+        greenSlider.value = green
+        blueSlider.value = blue
+
+        do {
+            try color.setValue(Color.redType, value: red)
+            try color.setValue(Color.greenType, value: green)
+            try color.setValue(Color.blueType, value: blue)
+            colorView.backgroundColor = color.color
+        } catch Color.InputError.InputOutOfRange(let badInput){
+            showPopupAlert("Input \(badInput) is out of range (0-100)")
+        } catch Color.InputError.InputIsEmpty {
+            showPopupAlert(inputIsEmptyMessage)
+        } catch {
+            showPopupAlert(unexpectedErrorMessage)
+        }
+
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: "applicationWillTerminate:",
+            name: UIApplicationDidEnterBackgroundNotification,
+            object: nil
+        )
+    }
+
+    func setDecimalPadKeyboard() {
         redTextField.delegate = self
         redTextField.keyboardType = .DecimalPad
 
@@ -113,23 +147,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         blueTextField.delegate = self
         blueTextField.keyboardType = .DecimalPad
+    }
 
-        let singleInstance = UIApplication.sharedApplication()
-        let appDelegate = singleInstance.delegate as? AppDelegate
+    func applicationWillTerminate(notification: NSNotification) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setValue(color.red, forKey: "red")
+        userDefaults.setValue(color.green, forKey: "green")
+        userDefaults.setValue(color.blue, forKey: "blue")
+    }
 
-        color = (appDelegate?.color)!
-        colorView.backgroundColor = color.color
-
-//        NSNotificationCenter.defaultCenter().addObserver(self,
-//            selector: "applicationDidEnterBackground",
-//            name: UIApplicationDidEnterBackgroundNotification,
-//            object: color
-//        )
-        NSNotificationCenter.defaultCenter().addObserver(self,
-            selector: "applicationWillTerminate",
-            name: UIApplicationWillTerminateNotification,
-            object: color
-        )
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func didReceiveMemoryWarning() {
